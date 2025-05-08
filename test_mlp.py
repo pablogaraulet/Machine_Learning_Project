@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import numpy as np
 from mlp_model import MLP
 from data_utils import get_flattened_loader
@@ -33,13 +34,19 @@ for cfg in configs:
     model.to(device)
     model.eval()
 
+    criterion = nn.CrossEntropyLoss()
     all_preds = []
     all_labels = []
+    total_loss = 0.0
+    total_samples = 0
 
     with torch.no_grad():
         for X_batch, y_batch in val_loader:
             X_batch, y_batch = X_batch.to(device), y_batch.to(device)
             outputs = model(X_batch)
+            loss = criterion(outputs, y_batch)
+            total_loss += loss.item() * X_batch.size(0)
+            total_samples += X_batch.size(0)
             preds = torch.argmax(outputs, dim=1)
             all_preds.extend(preds.cpu().numpy().tolist())
             all_labels.extend(y_batch.cpu().numpy().tolist())
@@ -51,4 +58,6 @@ for cfg in configs:
     np.save(cfg["labels_file"], all_labels)
 
     accuracy = (all_preds == all_labels).mean()
-    print(f"{cfg['name']} Validation Accuracy: {accuracy:.4f}\n")
+    avg_loss = total_loss / total_samples
+    print(f"{cfg['name']} Validation Accuracy: {accuracy:.4f}")
+    print(f"{cfg['name']} Validation Loss: {avg_loss:.4f}\n")
