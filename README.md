@@ -83,3 +83,19 @@ The implemented MLP has:
 ### 5. Utilities
 
 The `data_utils.py` file contains functions to automatically load and prepare the data, making it easy to use the MNIST and EMNIST datasets.
+
+### 6. Model Evaluation and Metrics
+
+After running the test scripts, you can further analyze the predictions and model performance using the provided evaluation script:
+
+```bash
+python evaluate.py
+```
+
+This script will:
+
+- Load the saved predictions and true labels from the results directory for both MLP and CNN models on MNIST and EMNIST.
+- Print detailed classification metrics such as confusion matrices and classification reports.
+- Help you compare the performance of different models and datasets in a consistent way.
+
+Use this script after testing to get a comprehensive view of your models' strengths and weaknesses.
