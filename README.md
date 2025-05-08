@@ -30,23 +30,56 @@ Install dependencies:
 
 ```bash
 pip install torch torchvision numpy pandas matplotlib scikit-learn
+```
 
 ## How to Run
 
-You can train the model and explore the data using the Jupyter notebook: `main.ipynb`.
+You can train the model and explore the data using either the Jupyter notebook: `main.ipynb` or the command line. Below are the steps to run the project.
 
+### 1. Train the MLP and CNN Models
 
-### 1. Exploring and Visualizing the Data
+To train the MLP and CNN models on **both MNIST and EMNIST**, run the following commands:
+
+```bash
+python train_mlp.py
+python train_cnn.py
+```
+
+This will:
+
+- Automatically download the MNIST and EMNIST datasets (if not already present).
+- Train an MLP model and a CNN model for each dataset.
+- Save the trained models as `mlp_mnist.pt`, `mlp_emnist.pt`, `cnn_mnist.pt`, and `cnn_emnist.pt`.
+
+### 2. Testing and Evaluation
+
+You can test the trained models using the provided test scripts:
+
+```bash
+python test_mlp.py
+python test_cnn.py
+```
+
+This will:
+- Evaluate the MLP and CNN models on the test data.
+- Output classification metrics and save predictions/results for further analysis.
+
+### 3. Exploring and Visualizing the Data
 
 Open the Jupyter notebook to explore the data, visualize samples, and run experiments. In the notebook, you will find examples of:
 - Loading and visualizing images
 - Preprocessing the data
 - Creating DataLoaders for PyTorch
-- Training and evaluating the model
+- Training and evaluating both MLP and CNN models
+- Comparing model performance
 
-### 2. Model Structure
+### 4. Model Structure
 
 The implemented MLP has:
 - An input layer for 784-pixel vectors (28x28 images)
 - Two hidden layers with ReLU activation and Dropout
 - An output layer adjustable to the number of classes (10 for MNIST, 47 for EMNIST)
+
+### 5. Utilities
+
+The `data_utils.py` file contains functions to automatically load and prepare the data, making it easy to use the MNIST and EMNIST datasets.
