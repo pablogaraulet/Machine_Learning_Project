@@ -25,3 +25,18 @@ def get_flattened_loader(dataset_name="MNIST", batch_size=64, train=True):
 
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=train)
     return loader
+
+def get_cnn_loader(dataset_name="MNIST", batch_size=64, train=True):
+    """
+    Loads MNIST or EMNIST dataset and returns DataLoader with 2D inputs for CNN.
+    """
+    transform = transforms.ToTensor()  # No flattening, keep shape [1, 28, 28]
+
+    if dataset_name == "MNIST":
+        dataset = datasets.MNIST(root="data", train=train, download=True, transform=transform)
+    elif dataset_name == "EMNIST":
+        dataset = datasets.EMNIST(root="data", split='balanced', train=train, download=True, transform=transform)
+    else:
+        raise ValueError("Unsupported dataset. Use 'MNIST' or 'EMNIST'.")
+
+    return DataLoader(dataset, batch_size=batch_size, shuffle=train)
